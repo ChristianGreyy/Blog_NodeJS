@@ -1,0 +1,57 @@
+<script src="/js/jquery.min.js"></script>
+<script src="/js/templatemo-script.js"></script>
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Color Picker -->
+<script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
+<!-- Editor -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<!-- Editor's Plugin -->
+<script
+    src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
+<script src="/js/single-post.js"></script>
+<script>
+
+    const Editor = toastui.Editor;
+
+    const { colorSyntax } = Editor.plugin;
+
+    const editor = new Editor({
+        el: document.querySelector('#editor'),
+        height: '500px',
+        initialEditType: 'wysiwyg',
+        previewStyle: 'vertical',
+        plugins: [colorSyntax]
+
+    });
+
+    editor.getMarkdown();
+
+    // let dataInput = '';
+
+
+    // document.querySelector('#editor').onkeydown = (e) => {
+    //     dataInput = e.target.innerHTML;
+    //     console.log(e.target)
+    // }
+
+
+    document.querySelector('.button-submit-post').onclick = async (e) => {
+        const fileInput = document.querySelector('.upload__file');
+        const titleInput = document.querySelector('.title-submit-post');
+        const content = document.getElementsByClassName("ProseMirror toastui-editor-contents")[0].innerHTML
+        const formData = new FormData();
+        formData.append('content', content);
+        formData.append('title', titleInput.value);
+        formData.append('image', fileInput.files[0]);
+        const res = await fetch('/post/createPost', {
+            method: 'POST',
+            body: formData
+        })
+        const data = await res.json();
+        window.location.href = '/post/' + data.post._id
+    }
+
+
+
+</script>

@@ -1,0 +1,7 @@
+{
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "json.schemas": [],
+  "files.associations": {
+    "stdlib.h": "c"
+  }
+}
